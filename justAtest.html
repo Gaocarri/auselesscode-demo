@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>二次插值法算法框图</title>
+</head>
+
+<body>
+  <script>
+    alert('如果发现您输入的并非数字，请刷新页面重新输入')
+    var K = 0
+      // 用户输入的值
+    var a = parseFloat(window.prompt('请输入a的值'))
+    var b = parseFloat(window.prompt('请输入b的值'))
+    var e = parseFloat(window.prompt('请输入精度'))
+    var t1 = parseFloat(window.prompt('请输入方程的第1个系数'))
+    var t2 = parseFloat(window.prompt('请输入方程的第2个系数'))
+    var t3 = parseFloat(window.prompt('请输入方程的第3个系数'))
+      // 定义二元一次方程f(x)
+    function fun(x) {
+      return t1 * x * x + t2 * x + t3
+    }
+
+    // 初始化函数
+    var a1 = a
+    var a3 = b
+    var a2 = (a1 + a3) / 2
+    var f1 = fun(a1)
+    var f2 = fun(a2)
+    var f3 = fun(a3)
+      // 定义计算中间变量的函数
+    function comMid(x1, x2, x3, y1, y2, y3) {
+      c1 = (y3 - y1) / (x3 - x1)
+      c2 = (((y2 - y1) / (x2 - x1)) - c1) / (x2 - x3)
+    }
+    // 定义流程图右边的函数
+    function funAside() {
+      // 第一个Y/N处
+      if (a2 < a4) {
+        if (f2 > f4) {
+          f1 = f2
+          a1 = a2
+          a2 = a4
+          f2 = f4
+          K = 1
+        } else {
+          a3 = a4
+          f3 = f4
+        }
+      } else {
+        if (f2 > f4) {
+          a3 = a2
+          f3 = f2
+          a2 = a4
+          f2 = f4
+          K = 1
+        } else {
+          a1 = a4
+          f1 = f4
+        }
+      }
+    }
+    // 定义循环函数
+    function cycle() {
+      comMid(a1, a2, a3, f1, f2, f3)
+        // 第一个Y/N处
+      if (c2 = 0) {
+        alert(`x*是${a2}f*是${f2}`)
+        return
+      } else {
+        a4 = (a1 + a3 - (c1 / c2)) / 2
+      }
+      // 第二个Y/N处
+      if ((a4 - a1) * (a3 - a4) > 0) {
+        f4 = fun(4)
+      } else {
+        alert(`x*是${a2}f*是${f2}`)
+        return
+      }
+      // 第三个Y/N处
+      if (K = 0) {
+        funAside(a1, a2, a3, a4, f1, f2, f3, f4, K)
+        cycle()
+      } else {
+        // 第四个Y/N处 abs求绝对值
+        if (Math.abs(a4 - a2) <= e) {
+          // 第五个Y/N处
+          if (f2 > f4) {
+            alert(`a*是${a4}f*是${f4}`)
+          } else {
+            alert(`x*是${a2}f*是${f2}`)
+          }
+        } else {
+          funAside()
+          cycle()
+        }
+      }
+    }
+    cycle()
+  </script>
+</body>
+
+</html>
